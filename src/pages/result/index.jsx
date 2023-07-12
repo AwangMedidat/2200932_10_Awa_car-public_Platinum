@@ -1,10 +1,13 @@
 import React from "react";
 import Result from "./Result";
+import Auth from "@/components/Auth";
 
 function index() {
   return (
     <div>
-      <Result />
+      <Auth>
+        <Result />
+      </Auth>
     </div>
   );
 }

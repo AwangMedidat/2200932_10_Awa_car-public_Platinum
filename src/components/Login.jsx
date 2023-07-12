@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import useLogin from "@/containers/Login/hooks/useLogin";
 import Link from "next/link";
 import React from "react";
@@ -66,7 +67,7 @@ function Login() {
               </Button>
             </div>
             <div className="text-center mt-3">
-              Don't have an account?{" "}
+              {`Don't have an account?`}{" "}
               <Link href="/signup">Sign Up for free</Link>{" "}
             </div>
           </Form>
