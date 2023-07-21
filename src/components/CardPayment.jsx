@@ -90,7 +90,9 @@ function CardPayment(props) {
   };
 
   useEffect(() => {
-    fetchOrderDetail(props.idOrder);
+    if (props.idOrder) {
+      fetchOrderDetail(props.idOrder);
+    }
   }, [props.idOrder]);
 
   return (
@@ -113,9 +115,11 @@ function CardPayment(props) {
           nextStep={nextStep}
           orderDetail={orderDetail}
           formatDateToIndonesian={formatDateToIndonesian}
+          numberBeRp={numberBeRp}
+          checkedItem={checkedItem}
         />
       ) : (
-        <StepThree />
+        <StepThree styles={styles}/>
       )}
     </>
   );

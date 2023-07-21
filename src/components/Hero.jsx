@@ -13,7 +13,7 @@ import useOrders from "@/containers/Orders/hooks/useOrders";
 
 function Hero(props) {
   const { user } = useSelector((state) => state.login);
-  const { fetchOrderDetail, orderDetail, handlePrevStep, checkedItem, steps } =
+  const { fetchOrderDetail, orderDetail, handlePrevStep, checkedItem, steps, handleClickBank } =
     useOrders();
   const [show, setShow] = useState(false);
   const router = useRouter();
@@ -39,6 +39,7 @@ function Hero(props) {
 
   const handleBack = () => {
     if (steps === 1) {
+      handleClickBank()
       router.push(`/detail/${orderDetail?.CarId}`);
     } else {
       handlePrevStep();
