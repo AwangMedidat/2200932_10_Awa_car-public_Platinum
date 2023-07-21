@@ -1,36 +1,19 @@
 import React, { useEffect, useState } from "react";
 import styles from "../styles/Home.module.css";
 import { Row, Col, Card, Container, Button } from "react-bootstrap";
-import Image from "next/image";
-import { useSelector, useDispatch } from "react-redux";
 import useCars from "@/containers/Cars/hooks/useCars";
-import axios from "axios";
-import {
-  carDetailStart,
-  carDetailSuccess,
-  carDetailFailure,
-} from "@/redux/cars/slice";
 import DatePicker from "react-datepicker";
 import { FaCalendarAlt } from "react-icons/fa";
+import useOrders from "@/containers/Orders/hooks/useOrders";
 
 function CardDetail(props) {
   const { fetchCarDetail, carDetail } = useCars();
-  const dispatch = useDispatch();
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  const { submitOrder, onChange, startDate, endDate } = useOrders();
 
   const numberBeRp = new Intl.NumberFormat("id-ID", {
     style: "currency",
     currency: "IDR",
   });
-
-  const onChange = (dates) => {
-    const [start, end] = dates;
-    console.log(start, "<<< mulai");
-    console.log(end, "<<< akhir");
-    setStartDate(start);
-    setEndDate(end);
-  };
 
   const categoryPerson = (level) => {
     if (level === "small") {
@@ -146,12 +129,9 @@ function CardDetail(props) {
                 <DatePicker
                   calendarClassName={`${styles.customCalendar}`}
                   className={`d-block ${styles.customDatepicker}`}
-                  style={{ width: "100%" }}
                   selected={startDate}
                   dateFormat="d MMMM yyyy"
                   onChange={onChange}
-                  // minDate={new Date()}
-                  // maxDate={addDays(new Date(), 6)}
                   startDate={startDate}
                   endDate={endDate}
                   selectsRange
@@ -173,11 +153,12 @@ function CardDetail(props) {
               </div>
               <div>
                 <Button
-                  type="submit"
+                  type="button"
                   variant="success"
                   className="d-block"
                   style={{ width: "100%" }}
                   disabled={!endDate}
+                  onClick={() => submitOrder(carDetail.id)}
                 >
                   Lanjutkan Pembayaran
                 </Button>

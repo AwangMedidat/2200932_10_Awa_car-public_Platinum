@@ -13,7 +13,7 @@
 }
 
 #testimonial .card {
-  background-color: #F1F3FF;
+  background-color: #f1f3ff;
 }
 
 .logo {
@@ -62,15 +62,15 @@
 }
 
 .yellow {
-  background-color: #F9CC00;
+  background-color: #f9cc00;
 }
 
 .red {
-  background-color: #FA2C5A;
+  background-color: #fa2c5a;
 }
 
 .green {
-  background-color: #5CB85F;
+  background-color: #5cb85f;
 }
 
 .navbar-toggler {
@@ -105,6 +105,25 @@
   color: #000000;
 } */
 
+.customListgroup {
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cardWrapper {
+  display: flex;
+  align-items: center;
+  max-width: 100%;
+}
+
+.checklist {
+  margin-left: 10px;
+  font-size: 1.2rem;
+  color: #28a745;
+}
+
 .searchForm {
   position: absolute;
   margin: 0 auto;
@@ -113,6 +132,21 @@
   left: 0;
   z-index: 15;
   margin-bottom: -7rem;
+}
+
+.active-step .badge {
+  border: 2px solid #007bff;
+}
+
+.inactive-step .badge {
+  border: 2px solid #007bff;
+}
+
+.line {
+  border-top: 1px solid #87b8e9;
+  width: 50px;
+  margin-top: 4px;
+  margin-bottom: 4px;
 }
 
 .footer {
@@ -127,6 +161,24 @@
   margin-top: 100px;
 }
 
+.copyField {
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+  transition: background-color 0.3s;
+}
+
+.copyField:hover {
+  background-color: #f9f9f9;
+}
+
+.copyText {
+  margin: 0;
+  font-size: 14px;
+  font-weight: bold;
+  color: #444;
+}
 
 @media (max-width: 575.98px) {
   .heroContent {
