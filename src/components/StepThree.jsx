@@ -1,9 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Row, Col, Card, Container, Button, Tab, Nav } from "react-bootstrap";
 import { FaDownload } from "react-icons/fa";
 
 function StepThree(props) {
-  const { styles } = props;
+  const { styles, orderDetail } = props;
+
+  const [imageBlob, setImageBlob] = useState(null);
+
+  useEffect(() => {
+    const fetchImage = async () => {
+      try {
+        const response = await fetch(orderDetail?.slip);
+        const blob = await response.blob();
+        setImageBlob(blob);
+      } catch (error) {
+        console.error("Error fetching image:", error);
+      }
+    };
+
+    fetchImage();
+  }, [])
+
+  const handleDownload = () => {
+    const link = document.createElement("a");
+    link.href = orderDetail?.slip;
+    link.download = "slip-bukti-bayar.jpeg";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link); 
+  };
 
   return (
     <Container className={`mb-3 ${styles.cardCarDetail}`}>
@@ -24,16 +49,16 @@ function StepThree(props) {
             <Card.Body>
               <div className="d-flex justify-content-between">
                 <Card.Title>Invoice</Card.Title>
-                <Button variant="outline-primary">
-                  <FaDownload size={15} className="mb-2 me-2" />
-                  Unduh
-                </Button>
+                  <Button variant="outline-primary" onClick={handleDownload}>
+                    <FaDownload size={15} className="mb-2 me-2" />
+                    Unduh
+                  </Button>
               </div>
               <Card.Text>*no. invoice</Card.Text>
               <div className="d-flex flex-column justify-content-center align-items-center">
                 <img
-                  src="/images/bg-pdf-viewer.png"
-                  alt=""
+                  src={orderDetail?.slip}
+                  alt="Slip Image"
                   style={{ width: "920px", height: "400px" }}
                   className="mb-4"
                 />

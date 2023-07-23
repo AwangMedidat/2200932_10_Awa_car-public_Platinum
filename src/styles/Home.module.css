@@ -244,6 +244,16 @@
   background-color: #fff;
 }
 
+.labelFileUpload {
+  width: 100%;
+  min-height: 15rem;
+  cursor: pointer;
+}
+
+.labelFileUpload input[type='file'] {
+  display: none;
+}
+
 /* ul {
   padding-left: 20px;
 } */

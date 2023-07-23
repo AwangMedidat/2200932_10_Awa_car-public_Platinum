@@ -1,5 +1,16 @@
+import auth from "@/utils/auth";
+import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { Row, Col, Card, Container, Button, Tab, Nav } from "react-bootstrap";
+import {
+  Row,
+  Col,
+  Card,
+  Container,
+  Button,
+  Tab,
+  Nav,
+  Form,
+} from "react-bootstrap";
 import { FaCopy } from "react-icons/fa";
 
 function StepTwo(props) {
@@ -17,6 +28,51 @@ function StepTwo(props) {
     title: null,
     name: null,
   });
+  const [filePreview, setFilePreview] = useState();
+
+  const handleChangeFile = (e) => {
+    const selectedFiles = e.target.files;
+
+    setFilePreview(selectedFiles[0]);
+
+    e.target.value = "";
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+
+    const selectedFiles = e.dataTransfer.files;
+    setFilePreview(selectedFiles[0]);
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(filePreview, '<<< file');
+    try {
+      const response = await axios.put(
+        `https://api-car-rental.binaracademy.org/customer/order/${orderDetail?.id}/slip`,
+        {
+          slip: filePreview,
+        },
+        {
+          headers: {
+            access_token: auth.getToken(),
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+    //   if (response.status === '200') {
+        nextStep(e)
+    //   }
+      console.log(response, "<<< berhasil");
+    } catch (error) {
+      console.log(error, "<<<< gagal");
+    }
+  };
 
   const targetDate = new Date(orderDetail?.createdAt);
   targetDate.setDate(targetDate.getDate() + 1);
@@ -73,7 +129,7 @@ function StepTwo(props) {
   };
 
   const paySlip = (e) => {
-    nextStep(e)
+    nextStep(e);
   };
 
   useEffect(() => {
@@ -340,24 +396,51 @@ function StepTwo(props) {
                       bisa upload bukti bayarmu
                     </p>
                   </Card.Text>
-                  <div className="mt-4 mb-4 d-flex justify-content-center">
-                    <img
-                      src="/images/logo/uknown-slip.png"
-                      alt=""
-                      //   style={{ width: "15px", marginRight: "5px" }}
-                    />{" "}
-                  </div>
-                  <div className="mt-5">
-                    <Button
-                      type="button"
-                      variant="success"
-                      className="d-block"
-                      style={{ width: "100%" }}
-                      onClick={paySlip}
-                    >
-                      Bayar
-                    </Button>
-                  </div>
+                  <Form onSubmit={handleSubmit}>
+                    <div className="mt-4 mb-4">
+                      <div
+                        draggable
+                        onDrop={handleDrop}
+                        onDragOver={handleDragOver}
+                      >
+                        <label
+                          htmlFor="upload"
+                          className={`${styles.labelFileUpload} d-flex justify-content-center align-items-center`}
+                        >
+                          {filePreview ? (
+                            <div style={{ width: "100%" }}>
+                              <img
+                                src={URL.createObjectURL(filePreview)}
+                                alt="img-preview"
+                                style={{ width: "100%" }}
+                              />
+                            </div>
+                          ) : (
+                            <img src="/images/logo/uknown-slip.png" alt="" />
+                          )}
+
+                          <input
+                            type="file"
+                            name="upload"
+                            id="upload"
+                            accept=".png, .jpg, .jpeg"
+                            onChange={handleChangeFile}
+                          />
+                        </label>
+                      </div>
+                    </div>
+                    <div className="mt-5">
+                      <Button
+                        type="submit"
+                        variant="success"
+                        className="d-block"
+                        style={{ width: "100%" }}
+                        // onClick={paySlip}
+                      >
+                        {filePreview ? "Konfirmasi" : "Upload"}
+                      </Button>
+                    </div>
+                  </Form>
                 </Card.Body>
               </>
             ) : (

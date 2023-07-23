@@ -119,7 +119,7 @@ function CardPayment(props) {
           checkedItem={checkedItem}
         />
       ) : (
-        <StepThree styles={styles}/>
+        <StepThree styles={styles} orderDetail={orderDetail}/>
       )}
     </>
   );
